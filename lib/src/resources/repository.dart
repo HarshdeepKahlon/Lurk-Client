@@ -16,7 +16,7 @@ import 'dart:async';
   // Should iterate over sources
   // UNFINISHED
   fetchTopIds() {
-    return sources[1].fetchTopIds();
+    return sources[0].fetchTopIds();
   }
 
   Future<ItemModel> fetchItem(int id) async{
