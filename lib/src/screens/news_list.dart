@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../blocs/stories_provider.dart';
 import '../widgets/news_list_tile.dart';
 import '../widgets/refresh.dart';
+import 'dart:io';
 
 class NewsList extends StatelessWidget {
   @override
@@ -11,12 +13,21 @@ class NewsList extends StatelessWidget {
     // Temporary
     bloc.fetchTopIds();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Hacker News'),
-      ),
-      body: buildList(bloc),
-    );
+    return Platform.isAndroid
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text('Hacker News'),
+            ),
+            body: buildList(bloc),
+          )
+        : CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: Text('Hacker News'),
+            ),
+            child: Material(
+              child: buildList(bloc),
+            ),
+          );
   }
 
   Widget buildList(StoriesBloc bloc) {

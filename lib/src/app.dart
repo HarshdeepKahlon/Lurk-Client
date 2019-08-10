@@ -9,6 +9,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Lurk',
         home: NewsList(),
+        theme: ThemeData.dark(),
       ),
     );
   }
