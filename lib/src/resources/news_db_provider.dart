@@ -8,10 +8,10 @@ import '../models/item_model.dart';
 class NewsDbProvider implements Source, Cache {
   Database db;
 
-  NewsDbProvider(){
+  NewsDbProvider() {
     init();
   }
-  
+
   void init() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, "items.db");
@@ -57,7 +57,8 @@ class NewsDbProvider implements Source, Cache {
   }
 
   Future<int> addItem(ItemModel item) {
-    return db.insert("Items", item.toMapforDb());
+    return db.insert("Items", item.toMapforDb(),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
   @override
@@ -65,6 +66,9 @@ class NewsDbProvider implements Source, Cache {
     return null;
   }
 
+  Future<int> clear() {
+    return db.delete("Items");
+  }
 }
 
 final newsDbProvider = NewsDbProvider();

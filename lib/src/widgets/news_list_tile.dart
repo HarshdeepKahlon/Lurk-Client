@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/item_model.dart';
 import '../blocs/stories_provider.dart';
+import 'loading_container.dart';
 
 class NewsListTile extends StatelessWidget {
   final int itemId;
@@ -16,7 +17,7 @@ class NewsListTile extends StatelessWidget {
       builder: (BuildContext context,
           AsyncSnapshot<Map<int, Future<ItemModel>>> snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: Text('STREAM Loading'));
+          return LoadingContainer();
         }
 
         return FutureBuilder(
@@ -24,15 +25,40 @@ class NewsListTile extends StatelessWidget {
           builder:
               (BuildContext context, AsyncSnapshot<ItemModel> itemSnapshot) {
             if (!itemSnapshot.hasData) {
-              return Center(child: Text('Future Loading'));
+              return LoadingContainer();
             }
 
-            return ListTile(
-              title: Text('${itemSnapshot.data.title}'),
+            return Column(
+              children: <Widget>[
+                buildTile(itemSnapshot.data),
+                Divider(
+                  height: 8.0,
+                ),
+              ],
             );
           },
         );
       },
+    );
+  }
+
+  Widget buildTile(ItemModel item) {
+    return ListTile(
+      title: Text('${item.title}'),
+      subtitle: Row(
+        children: <Widget>[
+          Icon(Icons.arrow_drop_up),
+          Text('${item.score}'),
+          Text(' - ${item.by}'),
+        ],
+      ),
+      trailing: Column(
+        children: <Widget>[
+          Icon(Icons.mode_comment),
+          Text('${item.descendants}'),
+        ],
+      ),
+      onTap: () {},
     );
   }
 }
