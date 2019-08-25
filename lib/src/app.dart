@@ -8,8 +8,14 @@ class App extends StatelessWidget {
     return StoriesProvider(
       child: MaterialApp(
         title: 'Lurk',
-        home: NewsList(),
         theme: ThemeData.dark(),
+        onGenerateRoute: (RouteSettings settings) {
+          return MaterialPageRoute(
+            builder: (context) {
+              return NewsList();
+            }
+          );
+        },
       ),
     );
   }
